@@ -32,6 +32,18 @@ namespace CafeDuCoin
 
             // Ajout du support pour les contrôleurs API
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,8 +62,8 @@ namespace CafeDuCoin
 
             // Activer la gestion des requêtes HTTP
             app.UseRouting();
-            
 
+            app.UseCors("AllowOrigin");
             // Activer l'authentification et l'autorisation (si nécessaire)
             // app.UseAuthentication();
             // app.UseAuthorization();

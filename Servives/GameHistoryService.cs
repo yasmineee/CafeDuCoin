@@ -7,8 +7,8 @@ namespace CafeDuCoin.Services
     {
         IEnumerable<GameHistory> GetGameHistory(int gameId);
         void AddGameHistory(GameHistory gameHistory);
-        void BorrowGame(GameHistory gameHistory);
-        void ReturnGame(GameHistory gameHistory);
+        void BorrowGame(int gameId);
+        void ReturnGame(int gameId);
     }
     public class GameHistoryService : IGameHistoryService
     {
@@ -30,23 +30,35 @@ namespace CafeDuCoin.Services
             _context.SaveChanges();
         }
 
-        public void BorrowGame(GameHistory gameHistory)
+        
+        public void BorrowGame(int gameId)
         {
-            gameHistory.BorrowDate = DateTime.UtcNow.Date;
+            var gameHistory = new GameHistory
+            {
+                GameId = gameId,
+                BorrowDate = DateTime.UtcNow,
+                State = "Borrowed"
+            };
+
             _context.GameHistories.Add(gameHistory);
-            gameHistory.State = GameState.Borrowed;
             _context.SaveChanges();
+
         }
 
-        public void ReturnGame(GameHistory gameHistory)
+
+        public void ReturnGame(int gameId)
         {
-            var history = _context.GameHistories.FirstOrDefault(gh => gh.Id == gameHistory.Id);
-            if (history != null)
+            var gameHistory = new GameHistory
             {
-                history.ReturnDate = DateTime.UtcNow.Date;
-                gameHistory.State = GameState.Returned;
-                _context.SaveChanges();
-            }
+                GameId = gameId,
+                ReturnDate = DateTime.UtcNow,
+                State = "Returned"
+            };
+
+            _context.GameHistories.Add(gameHistory);
+            _context.SaveChanges();
+
         }
+
     }
 }

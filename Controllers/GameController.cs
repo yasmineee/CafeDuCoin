@@ -1,8 +1,4 @@
-﻿
-
-
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using CafeDuCoin.Models;
 using CafeDuCoin.Services;
 
@@ -18,13 +14,6 @@ namespace CafeDuCoin.Controllers
         {
             _gameService = gameService;
         }
-
-        //[HttpGet]
-        //public ActionResult<IEnumerable<Game>> GetGames()
-        //{
-        //    var games = _gameService.GetGames();
-        //    return Ok(games);
-        //}
 
         [HttpGet]
         public ActionResult<IEnumerable<Game>> GetAllGamesWithCurrentState()

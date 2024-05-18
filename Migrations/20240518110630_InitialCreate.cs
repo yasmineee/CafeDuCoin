@@ -13,29 +13,12 @@ namespace CafeDuCoin.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GameHistories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    GameId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    BorrowDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ReturnDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameHistories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Borrowed = table.Column<bool>(type: "boolean", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,6 +38,34 @@ namespace CafeDuCoin.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "GameHistories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    GameId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    BorrowDate = table.Column<DateTime>(type: "date", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "date", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: false, defaultValue: "Free")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GameHistories_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameHistories_GameId",
+                table: "GameHistories",
+                column: "GameId");
         }
 
         /// <inheritdoc />
@@ -64,10 +75,10 @@ namespace CafeDuCoin.Migrations
                 name: "GameHistories");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Games");
         }
     }
 }

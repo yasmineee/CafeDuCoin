@@ -34,17 +34,17 @@ namespace CafeDuCoin.Controllers
             return CreatedAtAction(nameof(GetGameHistory), new { gameId = gameHistory.GameId }, gameHistory);
         }
 
-        [HttpPost("borrow")]
-        public ActionResult BorrowGame([FromBody] GameHistory gameHistory)
+        [HttpPost("borrow/{gameId}")]
+        public IActionResult BorrowGame(int gameId)
         {
-            _gameHistoryService.BorrowGame(gameHistory);
+            _gameHistoryService.BorrowGame(gameId);
             return Ok();
         }
 
-        [HttpPost("return")]
-        public ActionResult ReturnGame([FromBody] GameHistory gameHistory)
+        [HttpPost("return/{gameId}")]
+        public IActionResult ReturnGame( int gameId)
         {
-            _gameHistoryService.ReturnGame(gameHistory);
+            _gameHistoryService.ReturnGame(gameId);
             return Ok();
         }
 

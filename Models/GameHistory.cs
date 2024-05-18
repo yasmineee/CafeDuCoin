@@ -1,4 +1,7 @@
-﻿namespace CafeDuCoin.Models
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.Text.Json.Serialization;
+
+namespace CafeDuCoin.Models
 {
     public enum GameState
     {
@@ -23,6 +26,8 @@
             get => _returnDate?.Date;
             set => _returnDate = value?.Date;
         }
-        public GameState State { get; set; } = GameState.Free;
+        public string FormattedBorrowDate => BorrowDate.ToString("yyyy-MM-dd");
+        public string FormattedReturnDate => ReturnDate?.ToString("yyyy-MM-dd");
+        public string State { get; set; } = "Free";
     }
 }

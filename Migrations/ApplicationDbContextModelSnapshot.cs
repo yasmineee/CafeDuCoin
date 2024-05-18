@@ -30,9 +30,6 @@ namespace CafeDuCoin.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Borrowed")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -70,6 +67,8 @@ namespace CafeDuCoin.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.ToTable("GameHistories");
                 });
 
@@ -92,6 +91,20 @@ namespace CafeDuCoin.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CafeDuCoin.Models.GameHistory", b =>
+                {
+                    b.HasOne("CafeDuCoin.Models.Game", null)
+                        .WithMany("GameHistories")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CafeDuCoin.Models.Game", b =>
+                {
+                    b.Navigation("GameHistories");
                 });
 #pragma warning restore 612, 618
         }
