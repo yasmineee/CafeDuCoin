@@ -13,22 +13,20 @@ namespace CafeDuCoin
         public DbSet<User> Users { get; set; }
         public DbSet<GameHistory> GameHistories { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<GameHistory>()
-                .Property(g => g.BorrowDate)
-                .HasColumnType("date");
-
-            modelBuilder.Entity<GameHistory>()
-                .Property(g => g.ReturnDate)
-                .HasColumnType("date");
-           
-            modelBuilder.Entity<GameHistory>()
-                .Property(g => g.State)
-                .HasConversion<string>()
-                .HasDefaultValue(GameState.Free);
+            modelBuilder.Entity<Game>().HasData(
+            new Game { Id = 1, Name = "monopoli" },
+            new Game { Id = 2, Name = "uno" },
+            new Game { Id = 3, Name = "scrable" }
+        );
+            modelBuilder.Entity<User>().HasData(
+            new User { Id = 1, Login = "yasmine",Password="yasmine"  },
+            new User { Id = 2, Login = "test", Password = "test" }
+        );
         }
     }
 }

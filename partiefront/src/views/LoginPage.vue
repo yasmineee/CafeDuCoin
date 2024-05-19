@@ -12,6 +12,7 @@
             </div>
             <button type="submit">Login</button>
         </form>
+        <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
     </div>
 </template>
 
@@ -23,7 +24,8 @@
         data() {
             return {
                 username: '',
-                password: ''
+                password: '',
+                errorMessage: ''
             };
         },
         methods: {
@@ -38,12 +40,12 @@
                         localStorage.setItem('token', response.data.token);
                         // Redirect to games page
                         this.$router.push('/games');
-                    }
+                    } 
                 } catch (error) {
-                    console.error('Authentication error:', error.message);
-                    if (error.response) {
-                        console.error('Response status:', error.response.status);
-                        console.error('Response data:', error.response.data);
+                    if (error.response && error.response.data && error.response.data.message) {
+                        this.errorMessage = error.response.data.message;
+                    } else {
+                        this.errorMessage = 'An error occurred during login. Please try again.';
                     }
                 }
             }

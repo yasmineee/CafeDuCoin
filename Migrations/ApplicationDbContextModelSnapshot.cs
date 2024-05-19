@@ -37,6 +37,23 @@ namespace CafeDuCoin.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "monopoli"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "uno"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "scrable"
+                        });
                 });
 
             modelBuilder.Entity("CafeDuCoin.Models.GameHistory", b =>
@@ -48,19 +65,17 @@ namespace CafeDuCoin.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BorrowDate")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("GameId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ReturnDate")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Free");
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -91,6 +106,20 @@ namespace CafeDuCoin.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Login = "yasmine",
+                            Password = "yasmine"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Login = "test",
+                            Password = "test"
+                        });
                 });
 
             modelBuilder.Entity("CafeDuCoin.Models.GameHistory", b =>

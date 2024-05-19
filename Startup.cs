@@ -60,13 +60,10 @@ namespace CafeDuCoin
                 app.UseHsts();
             }
 
-            // Activer la gestion des requêtes HTTP
             app.UseRouting();
 
             app.UseCors("AllowOrigin");
-            // Activer l'authentification et l'autorisation (si nécessaire)
-            // app.UseAuthentication();
-            // app.UseAuthorization();
+            
 
             // Définir les points de terminaison pour les contrôleurs API
             app.UseEndpoints(endpoints =>

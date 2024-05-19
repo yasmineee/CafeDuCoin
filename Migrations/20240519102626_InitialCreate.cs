@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CafeDuCoin.Migrations
 {
     /// <inheritdoc />
@@ -47,9 +49,9 @@ namespace CafeDuCoin.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     GameId = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    BorrowDate = table.Column<DateTime>(type: "date", nullable: false),
-                    ReturnDate = table.Column<DateTime>(type: "date", nullable: true),
-                    State = table.Column<string>(type: "text", nullable: false, defaultValue: "Free")
+                    BorrowDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,6 +62,25 @@ namespace CafeDuCoin.Migrations
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Games",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "monopoli" },
+                    { 2, "uno" },
+                    { 3, "scrable" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Login", "Password" },
+                values: new object[,]
+                {
+                    { 1, "yasmine", "yasmine" },
+                    { 2, "test", "test" }
                 });
 
             migrationBuilder.CreateIndex(
