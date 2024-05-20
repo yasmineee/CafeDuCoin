@@ -1,0 +1,38 @@
+
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    restart: always
+    
+
+  frontend:
+    build:
+      context: ./partiefront
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"  # Supposant que votre application Vue.js utilise le port 80
+    depends_on:
+      - api
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    restart: always
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: NewCafeDatabase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postAdmin
+    ports:
+      - "5433:5432"
+    restart: always
+    

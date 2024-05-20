@@ -37,7 +37,7 @@ namespace CafeDuCoin
             {
                 options.AddPolicy("AllowOrigin", builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080")
+                    builder.WithOrigins("*")
                            .AllowAnyHeader()
                            .AllowAnyMethod();
                 });
@@ -59,7 +59,9 @@ namespace CafeDuCoin
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            // Other configurations
 
+            InitializeDatabase(app);
             app.UseRouting();
 
             app.UseCors("AllowOrigin");
@@ -70,6 +72,14 @@ namespace CafeDuCoin
             {
                 endpoints.MapControllers();
             });
+        }
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }
