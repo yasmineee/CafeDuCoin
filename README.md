@@ -1,7 +1,8 @@
 # CafeDuCoin
 
 ouvrir docker 
-pour lancer l'application il faut ouvrir l'invite de commande dans le chemin de l'application et entrer la commande :
+pour lancer l'application il faut ouvrir l'invite de commande dans le chemin de l'application 
+entrez la commande :
 
 docker compose up 
 
